@@ -21,6 +21,15 @@ int mod_n(int n);
 void datos(float a_datos[], int n);
 void cambiar(float a_datos[], int n);
 void imprimir(float a_datos[], int n);
+float media(float a_datos[], int n);
+float mediana(float a_datos[], int n);
+float moda(float a_datos[], int n);
+float varianza(float a_datos[], int n);
+float desv(float a_datos[], int n);
+float cuartil_1(float a_datos[], int n);
+float cuartil_3(float a_datos[], int n);
+float ric(float a_datos[], int n);
+float rango(float a_datos[], int n);
 
 // Funcion main
 
@@ -69,13 +78,13 @@ int main(){
             imprimir(a_datos, n); // Llamamos a la funcion
         
         else if (strcmp(opc, "media") == 0) // Opcion media : calcula la media
-            printf("\nmedia\n");
+            printf("\n\n%f\n",media(a_datos, n)); // Llamamos a la funcion
 
         else if (strcmp(opc, "mediana") == 0) // Opcion mediana : calcula la mediana
-            printf("\nmediana\n");
+            printf("\n\n%f\n",mediana(a_datos, n)); // Llamamos a la funcion
 
         else if (strcmp(opc, "moda") == 0) // Opcion moda : calcula la moda
-            printf("\nmoda\n");
+            printf("\n\n%f\n",moda(a_datos, n)); // Llamamos a la funcion
 
         else if (strcmp(opc, "varianza") == 0) // Opcion varianza : calcula la varianza
             printf("\nvarianza\n");
@@ -204,16 +213,16 @@ void imprimir(float a_datos[], int n){ // Funcion que ordena e imprime
     printf("\n\nImprimiendo datos en orden: \n\n");
 
     // Metodo de ordenamiento por insercion
-    for(i=0; i<n; i++){
-        pos = i;
-        aux = a_datos[i];
+    for(i=0; i<n; i++){ // Fuente: Programacion ATS https://www.youtube.com/watch?v=lYNyL0HuWSg&list=PLWtYZ2ejMVJlUu1rEHLC0i_oibctkl0Vh&index=53
+        pos = i; // Se asigna en posicion el valor de i
+        aux = a_datos[i]; // se guarda en auxiliar el valor ubicado en el subindice (iteracion) del arreglo
 
-        while ((pos>0) && (a_datos[pos-1] > aux))
+        while ((pos>0) && (a_datos[pos-1] > aux)) // Mientras no sea la primera posicion y que el valor izquierdo sea mayor que el valor de la posicion actual
         {
-            a_datos[pos] = a_datos[pos-1];
-            pos--;
+            a_datos[pos] = a_datos[pos-1]; // Hace el cambio de valores del izquierdo al actual
+            pos--; // Resta uno a la posicion para comprobar si se necesita cambiar de nuevo o ya esta acomodado el arreglo de la primera posicion a la actual
         }
-        a_datos[pos] = aux;
+        a_datos[pos] = aux; // se guarda el valor de auxiliar en la posicion que le pertenece
     }
 
     // Imprimimos la tabla de valores
@@ -222,4 +231,124 @@ void imprimir(float a_datos[], int n){ // Funcion que ordena e imprime
     for(i=0; i<n; i++)
         printf("%d\t%f\n",i, a_datos[i]);
 
+}
+
+float media(float a_datos[], int n){ // Funcion que retorna la media
+
+    int i; // Variable para llevar a cabo la iteracion
+    float m = 0.0; // Variable donde se almacenara la media
+
+    if (n == 1) // Si solo hay un valor, se retorna el mismo como media
+        return a_datos[0];
+    else{ // Si hay mas de un valor
+        for (i=0; i<n; i++) // Se itera sobre el total de datos
+            m += a_datos[i]; // Se suman todos los datos dentro de m
+        m /= n; // Se divide la suma de los datos entre el total de datos
+        return m; // Se retorna la media
+    }
+
+}
+
+float mediana(float a_datos[], int n){ // Funcion que retorna la mediana
+
+    int i; // Variable para guardar los indices a operar o retornar
+    int j, pos, aux; // Variables para el ordenamiento
+    float m = 0.0; // Variable donde se almacenara la mediana en caso de ser un arreglo par
+
+    if (n == 1) // Si solo hay un valor, se retorna a el mismo como mediana
+        return a_datos[0];
+    
+    // Metodo de ordenamiento por insercion
+    for(j=0; j<n; j++){ // Fuente: Programacion ATS https://www.youtube.com/watch?v=lYNyL0HuWSg&list=PLWtYZ2ejMVJlUu1rEHLC0i_oibctkl0Vh&index=53
+        pos = i; // Se asigna en posicion el valor de i
+        aux = a_datos[i]; // se guarda en auxiliar el valor ubicado en el subindice (iteracion) del arreglo
+
+        while ((pos>0) && (a_datos[pos-1] > aux)) // Mientras no sea la primera posicion y que el valor izquierdo sea mayor que el valor de la posicion actual
+        {
+            a_datos[pos] = a_datos[pos-1]; // Hace el cambio de valores del izquierdo al actual
+            pos--; // Resta uno a la posicion para comprobar si se necesita cambiar de nuevo o ya esta acomodado el arreglo de la primera posicion a la actual
+        }
+        a_datos[pos] = aux; // se guarda el valor de auxiliar en la posicion que le pertenece
+    }
+    
+    if ((n % 2) == 0) { // Caso de ser arreglo par
+        i = (n / 2); // Se encuentra la mitad y se trunca al ser entero
+        m = a_datos[i] + a_datos[i+1]; // Se suma la mitad inferior y superior
+        return m; // Se devuelve la mediana
+    }
+    else{ // Caso de ser arreglo impar
+        i = (n / 2) + 1; // Se encuentras el subindice del centro
+        return a_datos[i]; // Se retorna el valor almacenado
+    }
+
+}
+
+float moda(float a_datos[], int n){ // Funcion que retorna la moda o modas
+
+    float m = 0.0;
+
+    printf("\n\nModa\n");
+
+    return m;
+ 
+}
+
+float varianza(float a_datos[], int n){ // Funcion que retorna la varianza
+
+    float m = 0.0;
+
+    printf("\n\nVarianza\n");
+
+    return m;
+ 
+}
+
+float desv(float a_datos[], int n){ // Funcion que retorna la desviacion estandar
+
+    float m = 0.0;
+
+    printf("\n\nDesv\n");
+
+    return m;
+ 
+}
+
+float cuartil_1(float a_datos[], int n){ // Funcion que retorna el primer cuartil
+
+    float m = 0.0;
+
+    printf("\n\nCuartil1\n");
+
+    return m;
+ 
+}
+
+float cuartil_3(float a_datos[], int n){ // Funcion que retorna el tercer cuartil
+
+    float m = 0.0;
+
+    printf("\n\nCuartil3\n");
+
+    return m;
+ 
+}
+
+float ric(float a_datos[], int n){ // Funcion que retorna el rango
+
+    float m = 0.0;
+
+    printf("\n\nRic\n");
+
+    return m;
+ 
+}
+
+float rango(float a_datos[], int n){ // Funcion que retorna el rango
+
+    float m = 0.0;
+
+    printf("\n\nRango\n");
+
+    return m;
+ 
 }

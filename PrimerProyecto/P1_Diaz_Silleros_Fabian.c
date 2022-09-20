@@ -20,10 +20,11 @@ void menu();
 int mod_n(int n);
 void datos(float a_datos[], int n);
 void cambiar(float a_datos[], int n);
+void ordenar(float a_datos[], int n);
 void imprimir(float a_datos[], int n);
 float media(float a_datos[], int n);
 float mediana(float a_datos[], int n);
-float moda(float a_datos[], int n);
+void moda(float a_datos[], int n);
 float varianza(float a_datos[], int n);
 float desv(float a_datos[], int n);
 float cuartil_1(float a_datos[], int n);
@@ -84,7 +85,7 @@ int main(){
             printf("\n\n%f\n",mediana(a_datos, n)); // Llamamos a la funcion
 
         else if (strcmp(opc, "moda") == 0) // Opcion moda : calcula la moda
-            printf("\n\n%f\n",moda(a_datos, n)); // Llamamos a la funcion
+            moda(a_datos, n); // Llamamos a la funcion
 
         else if (strcmp(opc, "varianza") == 0) // Opcion varianza : calcula la varianza
             printf("\nvarianza\n");
@@ -205,14 +206,11 @@ void cambiar(float a_datos[], int n){ // Funcion que cambia de un dato
 
 }
 
-void imprimir(float a_datos[], int n){ // Funcion que ordena e imprime
-
+void ordenar(float a_datos[], int n){ // Funcion que aplica el Metodo de ordenamiento por insercion
+    
     // Declaramos las variables que usaremos para el ordenamiento y la impresion
     int i, pos, aux;
 
-    printf("\n\nImprimiendo datos en orden: \n\n");
-
-    // Metodo de ordenamiento por insercion
     for(i=0; i<n; i++){ // Fuente: Programacion ATS https://www.youtube.com/watch?v=lYNyL0HuWSg&list=PLWtYZ2ejMVJlUu1rEHLC0i_oibctkl0Vh&index=53
         pos = i; // Se asigna en posicion el valor de i
         aux = a_datos[i]; // se guarda en auxiliar el valor ubicado en el subindice (iteracion) del arreglo
@@ -224,6 +222,16 @@ void imprimir(float a_datos[], int n){ // Funcion que ordena e imprime
         }
         a_datos[pos] = aux; // se guarda el valor de auxiliar en la posicion que le pertenece
     }
+
+}
+
+void imprimir(float a_datos[], int n){ // Funcion que ordena e imprime
+
+    int i; // Variable para iterar con for
+
+    printf("\n\nImprimiendo datos en orden: \n\n");
+
+    ordenar(a_datos, n); // Llamamos la funcion que ordena
 
     // Imprimimos la tabla de valores
     printf("No.\tVALOR\n");
@@ -252,24 +260,12 @@ float media(float a_datos[], int n){ // Funcion que retorna la media
 float mediana(float a_datos[], int n){ // Funcion que retorna la mediana
 
     int i; // Variable para guardar los indices a operar o retornar
-    int j, pos, aux; // Variables para el ordenamiento
     float m = 0.0; // Variable donde se almacenara la mediana en caso de ser un arreglo par
 
     if (n == 1) // Si solo hay un valor, se retorna a el mismo como mediana
         return a_datos[0];
     
-    // Metodo de ordenamiento por insercion
-    for(j=0; j<n; j++){ // Fuente: Programacion ATS https://www.youtube.com/watch?v=lYNyL0HuWSg&list=PLWtYZ2ejMVJlUu1rEHLC0i_oibctkl0Vh&index=53
-        pos = i; // Se asigna en posicion el valor de i
-        aux = a_datos[i]; // se guarda en auxiliar el valor ubicado en el subindice (iteracion) del arreglo
-
-        while ((pos>0) && (a_datos[pos-1] > aux)) // Mientras no sea la primera posicion y que el valor izquierdo sea mayor que el valor de la posicion actual
-        {
-            a_datos[pos] = a_datos[pos-1]; // Hace el cambio de valores del izquierdo al actual
-            pos--; // Resta uno a la posicion para comprobar si se necesita cambiar de nuevo o ya esta acomodado el arreglo de la primera posicion a la actual
-        }
-        a_datos[pos] = aux; // se guarda el valor de auxiliar en la posicion que le pertenece
-    }
+    ordenar(a_datos, n); // Llamamos la funcion que ordena
     
     if ((n % 2) == 0) { // Caso de ser arreglo par
         i = (n / 2); // Se encuentra la mitad y se trunca al ser entero
@@ -283,14 +279,54 @@ float mediana(float a_datos[], int n){ // Funcion que retorna la mediana
 
 }
 
-float moda(float a_datos[], int n){ // Funcion que retorna la moda o modas
+void moda(float a_datos[], int n){ // Funcion que retorna la moda o modas
 
-    float m = 0.0;
+    int i, j, cuenta=0; // Variables para iterar sobre el arreglo y variable que lleva la cuenta de un num repetido
+    float mm[2][3] = {0.0}; // Matriz de modas [repeticiones, numero][uni-bi-multimodal]
 
-    printf("\n\nModa\n");
+    if (n == 1){
+        goto fin; // Si hay un solo dato, te manda al final
+    }
+    
+    ordenar(a_datos, n); // Llamamos a la funcion que ordena
 
-    return m;
- 
+    for (i=1; i<n+1; i++){ // Hace un recorrido por todos los datos
+
+        if(a_datos[i] == a_datos[i-1]){ // Si el dato actual es igual al anterior
+            cuenta += 1; // Se va a sumar uno  la cuenta de la moda
+        }
+        else{ // Si son datos diferentes
+            if(cuenta>0){ // Pero se conto que los numeros anteriores eran iguales
+                for (j=0; j<3; j++){ // Se itera sobre los tres posibles espacios del arreglo de modas
+                    if(cuenta > mm[0][j]){ // Si la moda recien encontrada es mayor que la anterior registrada
+                        mm[0][j]=cuenta+1; // Se asigna su valor de cuenta
+                        mm[1][j]=a_datos[i-1]; // Se asigna el valor de la moda
+                        break; // Se cierra la iteracion
+                    }
+                    if (cuenta+1 == mm[0][j]){ // Si la cuenta de esta moda es del mismo tamaño que la anterior registrada
+                        mm[0][j+1]=cuenta+1; // Se asigna en la segunda o tercera posicion la cuenta
+                        mm[1][j+1]=a_datos[i-1]; // Se asigna el valor de la moda
+                        break; // Se cierra la iteracion
+                    }
+                }
+                cuenta=0; // cuenta vuelve a 0 para volver a buscar una moda
+            }
+        }
+    }
+
+    if (mm[0][0] > mm[0][1]){ // Si la moda de la primera posicion es la mayor, es unimodal y se imprime
+        printf("\n\nModa Unimodal del dato: %f que aparecio %.0f veces\n",mm[1][0],mm[0][0]);
+    }
+    else if (mm[0][0] == mm[0][1] && mm[0][0] > mm[0][2]){ // Si las dos primeras modas registradas son mayores a la tercera, e iguales, es bimodal y se imprime
+        printf("\n\nModa Bimodal de los datos: %f y %f que aparecieron %.0f veces\n",mm[1][0],mm[1][1],mm[0][0]);
+    }
+    else if (mm[0][0] == 0){ // Si no se tuvo moda
+        fin:
+        printf("\n\nNo existe una moda en este conjunto de datos."); 
+    }
+    else if (mm[0][0] == mm[0][1] && mm[0][0] == mm[0][2]){ // Si las tres modas son iguales, es multimodal y se imprime
+        printf("\n\nModa Trimodal de los datos: %f , %f y %f que aparecieron %.0f veces\n",mm[1][0],mm[1][1],mm[1][2],mm[0][0]);
+    }
 }
 
 float varianza(float a_datos[], int n){ // Funcion que retorna la varianza

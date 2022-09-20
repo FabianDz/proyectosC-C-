@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 // Prototipos
 
@@ -87,20 +88,27 @@ int main(){
         else if (strcmp(opc, "moda") == 0) // Opcion moda : calcula la moda
             moda(a_datos, n); // Llamamos a la funcion
 
-        else if (strcmp(opc, "varianza") == 0) // Opcion varianza : calcula la varianza
-            printf("\nvarianza\n");
-
-        else if (strcmp(opc, "desvest") == 0) // Opcion desvest : calcula la desviacion estandar
-            printf("\ndesvest\n");
+        else if (strcmp(opc, "varianza") == 0){ // Opcion varianza : calcula la varianza
+            if (n == 1){
+                printf("\n\nNo se puede calcular la varianza de un solo dato.\n");
+            }
+            printf("\n\n%f\n",varianza(a_datos,n));
+        }
+        else if (strcmp(opc, "desvest") == 0){ // Opcion desvest : calcula la desviacion estandar
+            if (n == 1){
+                printf("\n\nNo se puede calcular la desviacion de un solo dato.\n");
+            }
+            printf("\n\n%f\n",desv(a_datos,n));
+        }
 
         else if (strcmp(opc, "cuartil1") == 0) // Opcion primer cuartil : calcula el primer cuartil de los datos
-            printf("\ncuartil\n");
-
+            printf("\n\n%f\n",cuartil_1(a_datos,n));    
+    
         else if (strcmp(opc, "cuartil3") == 0) // Opcion tercer cuartil : calcula el tercer cuartil de los datos
-            printf("\notrocuartil\n");
+            printf("\n\n%f\n",cuartil_3(a_datos,n));
 
         else if (strcmp(opc, "ric") == 0) // Opcion rango int. : calcula el rango intercuartilico
-            printf("\nric\n");
+            printf("\n\n%f\n",ric(a_datos,n));
 
         else if (strcmp(opc, "rango") == 0) // Opcion rango : calcula el rango de los datos
             printf("\nrango\n");
@@ -331,51 +339,112 @@ void moda(float a_datos[], int n){ // Funcion que retorna la moda o modas
 
 float varianza(float a_datos[], int n){ // Funcion que retorna la varianza
 
-    float m = 0.0;
+    // Gracias Profe Alex https://www.youtube.com/watch?v=oZRaDwnpXkY
 
-    printf("\n\nVarianza\n");
+    float m = 0.0, var=0; // Variables para almacenar la media, la varianza y la suma
+    int i; // Variable para iterar en los datos del arreglo
+    m = media(a_datos, n); // Asignamos a m el valor de la media
 
-    return m;
+    for(i=0; i<n; i++){ // Se itera sobre el arreglo para conseguir (x - m)^2 + ... + (nx - m)^2
+        var += pow((a_datos[i] - m), 2);
+    }
+    var /= n; // Se divide el resultado entre el numero de datos
+
+    return var; // Se retorna la varianza
  
 }
 
 float desv(float a_datos[], int n){ // Funcion que retorna la desviacion estandar
 
-    float m = 0.0;
+    float m = 0.0; // Variable para almacenar la varianza y la desviacion estandar
 
-    printf("\n\nDesv\n");
+    m = varianza(a_datos, n); // Sacamos la varianza
 
-    return m;
+    m = sqrt(m); // Sacamos la raiz cuadrada de la varianza
+
+    return m; // Retornamos la desviacion estandar
  
 }
 
 float cuartil_1(float a_datos[], int n){ // Funcion que retorna el primer cuartil
 
-    float m = 0.0;
+    // https://www.youtube.com/watch?v=yoWyNm7nBQQ 
 
-    printf("\n\nCuartil1\n");
+    if(n < 3){
+        printf("\n\nNo hay cuartiles para menos de 4 datos, se retornara 0.");
+        return 0.0; // Retornamos 0 porque no hay cuartiles para estos datos
+    }
+    float m = 0.0; // Declaramos la variable donde estara el valor del cuartil
+    int aux=0; // Auxiliar para hacer operaciones con los decimales
 
-    return m;
- 
+    ordenar(a_datos, n); // Llamamos a la funcion que ordena
+
+    m = (25/100) * n; // Asignamos la posicion
+    aux = m; // Asignamos el valor de m sin decimal a aux
+
+    if((m-aux) == 0){ // Si no tiene decimales
+        return a_datos[aux-1]; // Retornamos la posicion correrspondiente
+    }
+    else if((m-aux) == 0.5){ // si es 0.5, el centro de dos datos
+        m = (a_datos[aux-1] + a_datos[aux]) / 2; // Sacamos el cuartil de la suma y division de ambos
+        return m; // Retornamos el cuartil
+    }
+    else if((m-aux) > 0.5){ // Si es mayor a 0.5
+        return a_datos[aux]; // Redondeamos el indice hacia arriba y retornamos el dato
+    }
+    else{
+        return a_datos[aux-1]; // Redondeamos el indice hacia abajo y retornamos el dato
+    }
+
 }
 
 float cuartil_3(float a_datos[], int n){ // Funcion que retorna el tercer cuartil
 
-    float m = 0.0;
+    // https://www.youtube.com/watch?v=yoWyNm7nBQQ 
 
-    printf("\n\nCuartil3\n");
+    if(n < 3){
+        printf("\n\nNo hay cuartiles para menos de 4 datos, se retornara 0.");
+        return 0.0; // Retornamos 0 porque no hay cuartiles para estos datos
+    }
 
-    return m;
+    float m = 0.0; // Declaramos la variable donde estara el valor del cuartil
+    int aux=0; // Variable auxiliar
+
+    ordenar(a_datos, n); // Llamamos a la funcion que ordena
+
+    m = (75/100) * n; // Asignamos la posicion
+    aux = m; // Asignamos el valor de m sin decimal a aux
+
+    if((m-aux) == 0){ // Si no tiene decimales
+        return a_datos[aux-1]; // Retornamos la posicion correrspondiente
+    }
+    else if((m-aux) == 0.5){ // si es 0.5, el centro de dos datos
+        m = (a_datos[aux-1] + a_datos[aux]) / 2; // Sacamos el cuartil de la suma y division de ambos
+        return m; // Retornamos el cuartil
+    }
+    else if((m-aux) > 0.5){ // Si es mayor a 0.5
+        return a_datos[aux]; // Redondeamos el indice hacia arriba y retornamos el dato
+    }
+    else{
+        return a_datos[aux-1]; // Redondeamos el indice hacia abajo y retornamos el dato
+    }
  
 }
 
 float ric(float a_datos[], int n){ // Funcion que retorna el rango
 
-    float m = 0.0;
+    // https://www.youtube.com/watch?v=yoWyNm7nBQQ 
 
-    printf("\n\nRic\n");
+    if(n < 3){
+        printf("\n\nNo hay cuartiles para menos de 4 datos, se retornara 0.");
+        return 0.0; // Retornamos 0 porque no hay cuartiles para estos datos
+    }
+    float c1 = 0.0, c3 = 0.0;
 
-    return m;
+    c1 = cuartil_1(a_datos, n);
+    c3 = cuartil_3(a_datos, n);
+    
+    return (c3 - c1);
  
 }
 

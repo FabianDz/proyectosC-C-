@@ -102,7 +102,7 @@ int main(){
         }
 
         else if (strcmp(opc, "cuartil1") == 0) // Opcion primer cuartil : calcula el primer cuartil de los datos
-            printf("\n\n%f\n",cuartil_1(a_datos,n));    
+            printf("\n\n%f\n",cuartil_1(a_datos,n));   
     
         else if (strcmp(opc, "cuartil3") == 0) // Opcion tercer cuartil : calcula el tercer cuartil de los datos
             printf("\n\n%f\n",cuartil_3(a_datos,n));
@@ -111,11 +111,28 @@ int main(){
             printf("\n\n%f\n",ric(a_datos,n));
 
         else if (strcmp(opc, "rango") == 0) // Opcion rango : calcula el rango de los datos
-            printf("\nrango\n");
+            printf("\n\n%f\n",rango(a_datos,n));
 
-        else if (strcmp(opc, "todos") == 0) // Opcion todos los anteriores : calcula todas las opciones
-            printf("\ntodo alv\n");
+        else if (strcmp(opc, "todos") == 0){ // Opcion todos los anteriores : calcula todas las opciones
+            printf("\n\nEstos son tus datos: \n");
+            imprimir(a_datos, n); // Llamamos a la funcion de imprimir
 
+            printf("\n-------------------------------------");
+            printf("\n|\tmedia:\t%f",media(a_datos, n));
+            printf("\n|\tmediana:\t%f",mediana(a_datos, n));
+            moda(a_datos, n);
+            if (n == 1){
+                printf("\t| No se puede calcular la varianza y desviacion de un solo dato.");
+            }
+            else{
+                printf("\n|\tvarianza:\t%f",varianza(a_datos, n));
+                printf("\n|\tdesviacion:\t%f",desv(a_datos,n));
+            }
+            printf("\n|\tCuartil 1:\t%f",cuartil_1(a_datos,n));
+            printf("\n|\tCuartil 3:\t%f",cuartil_3(a_datos,n));
+            printf("\n|\tRango Intercuartil:\t%f",ric(a_datos,n));
+            printf("\n|\tRango:\t%f",rango(a_datos,n));
+        }
         else if (strcmp(opc, "salir") == 0) // Opcion para salir
             break;
 
@@ -166,13 +183,13 @@ int mod_n(int n){ // Funcion de la opcion n
 
     printf("\nLa cantidad de datos actuales (valor de n) es: %d\n",n);
     
-    while (i == 0 || i < 0)
+    while (i == 0 || i < 0 || i > 100)
     {
         printf("Digite la cantidad de datos que desea tener: ");
         scanf("%d", &i); // Leemos i
         getchar(); // Limpiamos el buffer
-        if (i < 1) {
-            printf("\nTiene que ser un valor mayor a 0, intente de nuevo\n\n.");
+        if (i < 1 || i > 100) {
+            printf("\nTiene que ser un valor mayor a 0 y menor a 100, intente de nuevo\n\n.");
         }
     }
 
@@ -217,7 +234,8 @@ void cambiar(float a_datos[], int n){ // Funcion que cambia de un dato
 void ordenar(float a_datos[], int n){ // Funcion que aplica el Metodo de ordenamiento por insercion
     
     // Declaramos las variables que usaremos para el ordenamiento y la impresion
-    int i, pos, aux;
+    int i, pos;
+    float aux;
 
     for(i=0; i<n; i++){ // Fuente: Programacion ATS https://www.youtube.com/watch?v=lYNyL0HuWSg&list=PLWtYZ2ejMVJlUu1rEHLC0i_oibctkl0Vh&index=53
         pos = i; // Se asigna en posicion el valor de i
@@ -323,17 +341,17 @@ void moda(float a_datos[], int n){ // Funcion que retorna la moda o modas
     }
 
     if (mm[0][0] > mm[0][1]){ // Si la moda de la primera posicion es la mayor, es unimodal y se imprime
-        printf("\n\nModa Unimodal del dato: %f que aparecio %.0f veces\n",mm[1][0],mm[0][0]);
+        printf("\n|Moda Unimodal del dato: %f que aparecio %.0f veces\n",mm[1][0],mm[0][0]);
     }
     else if (mm[0][0] == mm[0][1] && mm[0][0] > mm[0][2]){ // Si las dos primeras modas registradas son mayores a la tercera, e iguales, es bimodal y se imprime
-        printf("\n\nModa Bimodal de los datos: %f y %f que aparecieron %.0f veces\n",mm[1][0],mm[1][1],mm[0][0]);
+        printf("\n|Moda Bimodal de los datos: %f y %f que aparecieron %.0f veces\n",mm[1][0],mm[1][1],mm[0][0]);
     }
     else if (mm[0][0] == 0){ // Si no se tuvo moda
         fin:
-        printf("\n\nNo existe una moda en este conjunto de datos."); 
+        printf("\n|No existe una moda en este conjunto de datos."); 
     }
     else if (mm[0][0] == mm[0][1] && mm[0][0] == mm[0][2]){ // Si las tres modas son iguales, es multimodal y se imprime
-        printf("\n\nModa Trimodal de los datos: %f , %f y %f que aparecieron %.0f veces\n",mm[1][0],mm[1][1],mm[1][2],mm[0][0]);
+        printf("\n|Moda Trimodal de los datos: %f , %f y %f que aparecieron %.0f veces\n",mm[1][0],mm[1][1],mm[1][2],mm[0][0]);
     }
 }
 
@@ -379,7 +397,7 @@ float cuartil_1(float a_datos[], int n){ // Funcion que retorna el primer cuarti
 
     ordenar(a_datos, n); // Llamamos a la funcion que ordena
 
-    m = (25/100) * n; // Asignamos la posicion
+    m = 0.25 * n; // Asignamos la posicion
     aux = m; // Asignamos el valor de m sin decimal a aux
 
     if((m-aux) == 0){ // Si no tiene decimales
@@ -412,7 +430,7 @@ float cuartil_3(float a_datos[], int n){ // Funcion que retorna el tercer cuarti
 
     ordenar(a_datos, n); // Llamamos a la funcion que ordena
 
-    m = (75/100) * n; // Asignamos la posicion
+    m = 0.75 * n; // Asignamos la posicion
     aux = m; // Asignamos el valor de m sin decimal a aux
 
     if((m-aux) == 0){ // Si no tiene decimales
@@ -439,21 +457,24 @@ float ric(float a_datos[], int n){ // Funcion que retorna el rango
         printf("\n\nNo hay cuartiles para menos de 4 datos, se retornara 0.");
         return 0.0; // Retornamos 0 porque no hay cuartiles para estos datos
     }
-    float c1 = 0.0, c3 = 0.0;
+    float c1 = 0.0, c3 = 0.0; // Declaramos variables para contener el primer y el tercer cuartil
 
-    c1 = cuartil_1(a_datos, n);
-    c3 = cuartil_3(a_datos, n);
+    c1 = cuartil_1(a_datos, n); // Asignamos el retorno de la funcion del primer cuartil
+    c3 = cuartil_3(a_datos, n); // Asignamos el retorno de la funcion del tercer cuartil
     
-    return (c3 - c1);
+    return (c3 - c1); // Retornamos el valor del ric (resta del primer y tercer cuartil)
  
 }
 
 float rango(float a_datos[], int n){ // Funcion que retorna el rango
 
-    float m = 0.0;
+    float m = 0.0; // Variable para almacenar el rango
 
-    printf("\n\nRango\n");
-
-    return m;
- 
+    if(n == 1) // Si solo hay un dato, se retorna el mismo
+        return m;
+    else{
+        ordenar(a_datos, n); // Ordenamos los datos
+        m = a_datos[n-1] - a_datos[0]; // Asignamos en m la resta del dato mas grande y el mas pequeño
+        return m; // Retornamos el rango
+    }
 }

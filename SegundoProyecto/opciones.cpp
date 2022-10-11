@@ -34,6 +34,62 @@ void ayuda(){ // Funcion que imprime el menu de opciones
 
 }
 
+void redimensionar(int ordMat){ // Funcion que llama al metodo para cambiar el orden
+	
+	
+	
+}
+
+void llenar(char matrizSel){ // Funcion que llama al metodo para llenar una matriz
+	
+	
+	
+}
+
+
+void imprimir(char matrizSel){ // Funcion que llama al metodo para imprimir una matriz
+	
+	// Sentencia switch dependiendo de la matriz pedida
+	switch (matrizSel){
+		
+		case 'A': // Si se pide imprimir A
+				A.getContenido(); // Metodo para imprimir
+				break;
+		case 'B': // Si se pide imprimir B
+				B.getContenido(); // Metodo para imprimir
+				break;
+	}
+}
+
+
+void sumar(){ // Funcion que genera una suma de matrices
+	
+	
+	
+}
+
+
+void restar(){ // Funcion que genera una resta de matrices
+	
+	
+	
+}
+
+
+void multiplicar(){ // Funcion que genera una multiplicacion de matrices
+	
+	
+	
+}
+
+
+void trasponer(char matrizSel){ // Funcion que llama al metodo para trasponer una matrizs
+	
+	
+	
+}
+
+
 void liberarMat(){
 	
 	A.liberar();

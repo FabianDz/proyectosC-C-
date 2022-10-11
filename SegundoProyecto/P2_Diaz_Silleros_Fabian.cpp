@@ -20,7 +20,7 @@ using namespace std;
 int main(){
 
     string opcion; // String de opciones del menu
-    char matrizSel = 0; // Char que identifica con que matriz vamos a trabajar
+    char matrizSel = 'Z'; // Char que identifica con que matriz vamos a trabajar
 
     while (true) // loop while que no va a terminar hasta que se teclee salir
     {
@@ -52,12 +52,14 @@ int main(){
         }
         else if(opcion.compare("imprimir A") == 0 || opcion.compare("imprimir a") == 0){ // Caso Opcion llenar matriz A
             
-            cout<<"Ahorita te imprimo a"<<endl;
+            matrizSel = 'A';
+            imprimir(matrizSel);
 
         }
         else if(opcion.compare("imprimir B") == 0 || opcion.compare("imprimir b") == 0){ // Caso Opcion llenar matriz B
             
-            cout<<"Ahorita te la imprimo b"<<endl;
+            matrizSel = 'B';
+            imprimir(matrizSel);
 
         }
         else if(opcion.compare("sumar") == 0){ // Caso Opcion Sumar matrices A y B

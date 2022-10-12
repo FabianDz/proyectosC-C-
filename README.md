@@ -4,6 +4,4 @@ Aquí se encuentra el desarrollo y próxima finalización de los tres proyectos 
 
 Proyecto 1: Calculadora de medidas de tendencia central y de dispersión sobre un conjunto arbitrario de datos.
 
-Proyecto 2: 
-
-Proyecto 3:
+Proyecto 2: Calculadora de Matrices.

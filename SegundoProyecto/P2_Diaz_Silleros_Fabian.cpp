@@ -37,54 +37,75 @@ int main(){
         }
         else if(opcion.compare("redimensionar") == 0){ // Caso Opcion Redimensionar
             
-            cout<<"Ahorita te la redimensiono"<<endl;
+            redimensionar(); // Llamamos funcion redimensionar en opciones.cpp
 
         }
         else if(opcion.compare("llenar A") == 0 || opcion.compare("llenar a") == 0){ // Caso Opcion llenar matriz A
             
-            cout<<"Ahorita te la lleno a"<<endl;
+            matrizSel = 'A'; // Asignamos A a matriz Seleccionada
+            llenar(matrizSel); // Llamamos funcion llenar
 
         }
         else if(opcion.compare("llenar B") == 0 || opcion.compare("llenar b") == 0){ // Caso Opcion llenar matriz B
             
-            cout<<"Ahorita te la lleno b"<<endl;
+            matrizSel = 'B'; // Asignamos B a matriz Seleccionada
+            llenar(matrizSel); // Llamamos funcion llenar
 
+        }
+        else if(opcion.compare("llenar C") == 0 || opcion.compare("llenar c") == 0){ // Si el usuario quiere rellenar matriz C
+            
+            cout<<"\nNo puedes llenar la matriz C"<<endl;
+            
         }
         else if(opcion.compare("imprimir A") == 0 || opcion.compare("imprimir a") == 0){ // Caso Opcion llenar matriz A
             
-            matrizSel = 'A';
-            imprimir(matrizSel);
+            matrizSel = 'A'; // Asignamos A a matriz Seleccionada
+            imprimir(matrizSel); // Llamamos funcion imprimir
 
         }
         else if(opcion.compare("imprimir B") == 0 || opcion.compare("imprimir b") == 0){ // Caso Opcion llenar matriz B
             
-            matrizSel = 'B';
-            imprimir(matrizSel);
+            matrizSel = 'B'; // Asignamos B a matriz Seleccionada
+            imprimir(matrizSel); // Llamamos funcion imprimir
+
+        }
+        else if(opcion.compare("imprimir C") == 0 || opcion.compare("imprimir c") == 0){ // Caso Opcion llenar matriz B
+            
+            matrizSel = 'C'; // Asignamos C a matriz Seleccionada
+            imprimir(matrizSel); // Llamamos funcion imprimir
 
         }
         else if(opcion.compare("sumar") == 0){ // Caso Opcion Sumar matrices A y B
             
-            cout<<"Ahorita te la sumo"<<endl;
+            sumar(); // Llamamos a la funcion sumar
 
         }
         else if(opcion.compare("restar") == 0){ // Caso Opcion Restar matrices A y B
             
-            cout<<"Ahorita te la resto"<<endl;
+            restar(); // Llamamos a la funcion restar
 
         }
         else if(opcion.compare("multiplicar") == 0){ // Caso Opcion Multiplicar matrices A y B
             
-            cout<<"Ahorita te la multiplico"<<endl;
+            multiplicar(); // Llamamos a la funcion multiplicar
 
         }
-        else if(opcion.compare("trasponer A") == 0 || opcion.compare("trasponer a") == 0){ // Caso Opcion trasponer matriz A
+        else if(opcion.compare("transponer A") == 0 || opcion.compare("transponer a") == 0){ // Caso Opcion transponer matriz A
             
-            cout<<"Ahorita te la traspongo a"<<endl;
+            matrizSel = 'A'; // Asignamos A a matriz Seleccionada
+            transponer(matrizSel); // Llamamos funcion transponer
 
         }
-        else if(opcion.compare("trasponer B") == 0 || opcion.compare("trasponer b") == 0){ // Caso Opcion trasponer matriz B
+        else if(opcion.compare("transponer B") == 0 || opcion.compare("transponer b") == 0){ // Caso Opcion transponer matriz B
             
-            cout<<"Ahorita te la traspongo b"<<endl;
+            matrizSel = 'B'; // Asignamos B a matriz Seleccionada
+            transponer(matrizSel); // Llamamos funcion transponer
+
+        }
+        else if(opcion.compare("transponer C") == 0 || opcion.compare("transponer c") == 0){ // Caso Opcion transponer matriz B
+            
+            matrizSel = 'C'; // Asignamos C a matriz Seleccionada
+            transponer(matrizSel); // Llamamos funcion transponer
 
         }
         else if(opcion.compare("salir") == 0){ // Caso Opcion salir
@@ -95,6 +116,9 @@ int main(){
 		else{
             cout<<"Comando no valido, intenta de nuevo, sino, pide ayuda con 'ayuda'."<<endl;
         }
+        
+        // Un endl para dejarlo bonito
+        cout<<endl;
 
     }
     

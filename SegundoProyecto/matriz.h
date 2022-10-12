@@ -52,10 +52,10 @@ class Matriz{
         
         // Metodos
         
-        void setOrden(); // Cambia el orden de la matriz
+        void setOrden(int); // Cambia el orden de la matriz
         void setContenido(); // Cambia el contenido de la matriz
         void getContenido(); // Imprime el contenido de las matrices
-        void trasponer(); // Traspone la matriz
+        void transponer(); // Traspone la matriz
 		void liberar(); // Libera la matriz
         
 };
